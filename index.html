@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M24 Invest — Konstanz Co-Investment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:   #001F35;
+    --navy2:  #0a2d47;
+    --gold:   #DA9E31;
+    --gold2:  #f0b84a;
+    --teal:   #15405C;
+    --white:  #FFFFFF;
+    --cream:  #F7F4EE;
+    --gray1:  #F3F2EF;
+    --gray2:  #E0DED8;
+    --gray3:  #A8A6A0;
+    --gray4:  #6B6965;
+    --green:  #2D6A2D;
+    --font-main: 'Manrope', sans-serif;
+    --font-serif: 'EB Garamond', serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-main);
+    background: var(--cream);
+    color: var(--navy);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 64px;
+    background: rgba(0,31,53,0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(218,158,49,0.2);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 12px; }
+  .nav-logo-mark {
+    width: 34px; height: 34px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: var(--gold); letter-spacing: 0.05em;
+  }
+  .nav-logo-text { font-size: 14px; font-weight: 600; color: var(--white); letter-spacing: 0.08em; }
+  .nav-logo-sub { font-size: 10px; color: rgba(218,158,49,0.8); letter-spacing: 0.12em; margin-top: 1px; }
+  .nav-right { display: flex; align-items: center; gap: 28px; }
+  .nav-link { font-size: 12px; color: rgba(255,255,255,0.6); text-decoration: none; letter-spacing: 0.06em; transition: color 0.2s; }
+  .nav-link:hover { color: var(--gold); }
+  .nav-cta {
+    font-size: 12px; font-weight: 600; color: var(--navy);
+    background: var(--gold); padding: 8px 20px; border-radius: 2px;
+    text-decoration: none; letter-spacing: 0.06em; transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--gold2); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: var(--navy);
+    display: grid; grid-template-columns: 1fr 1fr;
+    padding-top: 64px; position: relative; overflow: hidden;
+  }
+  .hero-dots {
+    position: absolute; top: 0; right: 0;
+    width: 320px; height: 320px;
+    background-image: radial-gradient(circle, rgba(218,158,49,0.35) 1.5px, transparent 1.5px);
+    background-size: 22px 22px;
+    mask-image: radial-gradient(ellipse at top right, black 30%, transparent 75%);
+  }
+  .hero-accent {
+    position: absolute; bottom: 0; left: 0;
+    width: 4px; height: 60%;
+    background: linear-gradient(to top, var(--gold), transparent);
+  }
+  .hero-left {
+    padding: 80px 60px 80px 60px;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative; z-index: 2;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; letter-spacing: 0.14em; color: var(--gold);
+    font-weight: 600; margin-bottom: 32px;
+  }
+  .hero-tag::before {
+    content: ''; display: block;
+    width: 28px; height: 1px; background: var(--gold);
+  }
+  .hero-title {
+    font-family: var(--font-serif);
+    font-size: clamp(38px, 4vw, 58px);
+    font-weight: 400; line-height: 1.12;
+    color: var(--white); margin-bottom: 12px;
+  }
+  .hero-title em { color: var(--gold); font-style: italic; }
+  .hero-location {
+    font-size: 13px; color: rgba(255,255,255,0.45);
+    letter-spacing: 0.1em; margin-bottom: 28px; font-weight: 500;
+  }
+  .hero-desc {
+    font-size: 15px; line-height: 1.75;
+    color: rgba(255,255,255,0.65);
+    max-width: 440px; margin-bottom: 48px;
+  }
+  .hero-kpi {
+    display: grid; grid-template-columns: repeat(2, auto);
+    gap: 0; width: fit-content; border: 1px solid rgba(218,158,49,0.25);
+  }
+  .kpi-cell {
+    padding: 20px 28px;
+    border-right: 1px solid rgba(218,158,49,0.15);
+    border-bottom: 1px solid rgba(218,158,49,0.15);
+  }
+  .kpi-cell:nth-child(2n) { border-right: none; }
+  .kpi-cell:nth-last-child(-n+2) { border-bottom: none; }
+  .kpi-val { font-size: 26px; font-weight: 700; color: var(--gold); line-height: 1; }
+  .kpi-label { font-size: 11px; color: rgba(255,255,255,0.45); margin-top: 5px; letter-spacing: 0.06em; }
+
+  .hero-right {
+    position: relative; z-index: 2;
+    display: flex; align-items: center; justify-content: center;
+    padding: 80px 60px;
+  }
+  .hero-image-block {
+    width: 100%; max-width: 440px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(218,158,49,0.2);
+    border-radius: 2px; overflow: hidden;
+  }
+  .hero-img-header {
+    background: rgba(218,158,49,0.12);
+    border-bottom: 1px solid rgba(218,158,49,0.2);
+    padding: 16px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .hero-img-title { font-size: 11px; letter-spacing: 0.1em; color: var(--gold); font-weight: 600; }
+  .status-badge {
+    font-size: 10px; letter-spacing: 0.08em; font-weight: 600;
+    color: #2D6A2D; background: rgba(45,106,45,0.15);
+    padding: 4px 10px; border-radius: 2px;
+  }
+  .hero-stats { padding: 28px 24px; display: flex; flex-direction: column; gap: 0; }
+  .stat-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-key { font-size: 12px; color: rgba(255,255,255,0.4); }
+  .stat-val { font-size: 13px; font-weight: 600; color: var(--white); }
+  .stat-val.gold { color: var(--gold); }
+
+  /* ── SCROLL ARROW ── */
+  .scroll-hint {
+    position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: rgba(255,255,255,0.3); font-size: 10px; letter-spacing: 0.1em;
+    animation: bounce 2.5s infinite;
+  }
+  .scroll-hint svg { width: 18px; opacity: 0.4; }
+  @keyframes bounce {
+    0%,100% { transform: translateX(-50%) translateY(0); }
+    50%      { transform: translateX(-50%) translateY(6px); }
+  }
+
+  /* ── SECTION BASE ── */
+  section { padding: 96px 60px; }
+  .section-tag {
+    font-size: 10px; letter-spacing: 0.16em; font-weight: 700;
+    color: var(--gold); margin-bottom: 16px; display: block;
+  }
+  .section-title {
+    font-family: var(--font-serif);
+    font-size: clamp(28px, 3vw, 42px);
+    font-weight: 400; line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  .section-sub {
+    font-size: 15px; color: var(--gray4); line-height: 1.7;
+    max-width: 560px; margin-bottom: 56px;
+  }
+
+  /* ── MARKET SECTION ── */
+  .section-market { background: var(--white); }
+  .market-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--gray2); }
+  .market-card {
+    background: var(--white); padding: 36px 32px;
+    transition: background 0.2s;
+  }
+  .market-card:hover { background: var(--cream); }
+  .market-icon {
+    width: 40px; height: 40px; margin-bottom: 20px;
+    border: 1px solid var(--gold); border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold); font-size: 18px;
+  }
+  .market-num { font-size: 36px; font-weight: 700; color: var(--navy); line-height: 1; margin-bottom: 6px; }
+  .market-label { font-size: 12px; color: var(--gold); font-weight: 600; letter-spacing: 0.06em; margin-bottom: 12px; }
+  .market-desc { font-size: 13px; color: var(--gray4); line-height: 1.65; }
+
+  /* ── DEAL SECTION ── */
+  .section-deal { background: var(--navy); color: var(--white); }
+  .section-deal .section-title { color: var(--white); }
+  .section-deal .section-sub { color: rgba(255,255,255,0.5); }
+  .deal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .deal-specs { display: flex; flex-direction: column; gap: 0; }
+  .spec-row {
+    display: flex; justify-content: space-between;
+    padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .spec-key { font-size: 13px; color: rgba(255,255,255,0.4); }
+  .spec-val { font-size: 13px; font-weight: 600; color: var(--white); text-align: right; }
+  .deal-timeline { display: flex; flex-direction: column; gap: 0; }
+  .timeline-item { display: flex; gap: 20px; padding-bottom: 28px; position: relative; }
+  .timeline-item:last-child { padding-bottom: 0; }
+  .timeline-item:not(:last-child)::before {
+    content: ''; position: absolute;
+    left: 15px; top: 32px; bottom: 0; width: 1px;
+    background: rgba(218,158,49,0.2);
+  }
+  .timeline-dot {
+    width: 32px; height: 32px; flex-shrink: 0; border-radius: 50%;
+    background: rgba(218,158,49,0.15); border: 1px solid var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: var(--gold);
+  }
+  .timeline-content { padding-top: 4px; }
+  .timeline-period { font-size: 11px; color: var(--gold); font-weight: 600; letter-spacing: 0.08em; margin-bottom: 4px; }
+  .timeline-title { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 6px; }
+  .timeline-desc { font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.6; }
+
+  /* ── CALCULATOR ── */
+  .section-calc { background: var(--cream); }
+  .calc-wrap {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 40px; align-items: start;
+  }
+  .calc-controls {
+    background: var(--white);
+    border: 1px solid var(--gray2);
+    border-radius: 2px; padding: 40px;
+  }
+  .calc-title { font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+  .calc-subtitle { font-size: 13px; color: var(--gray3); margin-bottom: 36px; }
+
+  .input-group { margin-bottom: 32px; }
+  .input-label {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-size: 12px; font-weight: 600; color: var(--gray4);
+    letter-spacing: 0.06em; margin-bottom: 12px;
+  }
+  .input-label span {
+    font-size: 22px; font-weight: 700; color: var(--navy);
+    letter-spacing: 0;
+  }
+  input[type=range] {
+    -webkit-appearance: none; width: 100%; height: 3px;
+    background: var(--gray2); border-radius: 2px; outline: none;
+    cursor: pointer; transition: background 0.2s;
+  }
+  input[type=range]:hover { background: var(--gray3); }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px; height: 20px;
+    background: var(--navy); border: 3px solid var(--gold);
+    border-radius: 50%; cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,31,53,0.2);
+    transition: transform 0.15s;
+  }
+  input[type=range]:active::-webkit-slider-thumb { transform: scale(1.2); }
+  .range-labels {
+    display: flex; justify-content: space-between;
+    font-size: 11px; color: var(--gray3); margin-top: 8px;
+  }
+
+  .fixed-params {
+    background: var(--cream); border-radius: 2px;
+    padding: 20px 24px; margin-top: 24px;
+  }
+  .fixed-title { font-size: 11px; letter-spacing: 0.1em; color: var(--gray4); font-weight: 600; margin-bottom: 14px; }
+  .fixed-row {
+    display: flex; justify-content: space-between;
+    font-size: 12px; padding: 6px 0; border-bottom: 1px solid var(--gray2);
+  }
+  .fixed-row:last-child { border-bottom: none; }
+  .fixed-key { color: var(--gray4); }
+  .fixed-val { font-weight: 600; color: var(--navy); }
+
+  /* Results panel */
+  .calc-results {
+    display: flex; flex-direction: column; gap: 16px;
+    position: sticky; top: 84px;
+  }
+  .result-hero {
+    background: var(--navy); border-radius: 2px; padding: 36px 32px;
+    position: relative; overflow: hidden;
+  }
+  .result-hero-bg {
+    position: absolute; top: -20px; right: -20px;
+    width: 160px; height: 160px;
+    background-image: radial-gradient(circle, rgba(218,158,49,0.2) 1.5px, transparent 1.5px);
+    background-size: 18px 18px;
+  }
+  .result-hero-tag { font-size: 10px; letter-spacing: 0.14em; color: var(--gold); font-weight: 600; margin-bottom: 20px; }
+  .result-irr-label { font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 6px; }
+  .result-irr-val {
+    font-size: 64px; font-weight: 700; color: var(--gold);
+    line-height: 1; margin-bottom: 4px;
+    font-variant-numeric: tabular-nums;
+    transition: all 0.3s;
+  }
+  .result-irr-sub { font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom: 28px; }
+  .result-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 20px 0; }
+  .result-row {
+    display: flex; justify-content: space-between;
+    font-size: 13px; padding: 6px 0;
+  }
+  .result-key { color: rgba(255,255,255,0.45); }
+  .result-val { font-weight: 600; color: var(--white); }
+  .result-val.gold { color: var(--gold); }
+
+  .result-card {
+    background: var(--white); border: 1px solid var(--gray2);
+    border-radius: 2px; padding: 24px 28px;
+  }
+  .result-card-title { font-size: 11px; letter-spacing: 0.1em; color: var(--gray4); font-weight: 600; margin-bottom: 16px; }
+  .waterfall-visual { display: flex; height: 10px; border-radius: 2px; overflow: hidden; margin-bottom: 12px; }
+  .wf-seg { transition: width 0.4s cubic-bezier(.4,0,.2,1); }
+  .wf-legend { display: flex; flex-wrap: wrap; gap: 8px; }
+  .wf-leg { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--gray4); }
+  .wf-dot { width: 8px; height: 8px; border-radius: 1px; flex-shrink: 0; }
+
+  .result-breakdown { display: flex; flex-direction: column; gap: 0; }
+  .bd-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 9px 0; border-bottom: 1px solid var(--gray1);
+  }
+  .bd-row:last-child { border-bottom: none; }
+  .bd-key { font-size: 12px; color: var(--gray4); }
+  .bd-val { font-size: 12px; font-weight: 600; }
+  .bd-val.green { color: var(--green); }
+  .bd-val.gold  { color: #9A6B10; }
+  .bd-val.navy  { color: var(--navy); }
+
+  .cta-block {
+    background: var(--gold); border-radius: 2px; padding: 28px 32px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .cta-text-main { font-size: 15px; font-weight: 700; color: var(--navy); }
+  .cta-text-sub { font-size: 12px; color: rgba(0,31,53,0.6); margin-top: 3px; }
+  .cta-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--navy); color: var(--white); font-size: 13px;
+    font-weight: 600; padding: 12px 24px; border-radius: 2px;
+    text-decoration: none; white-space: nowrap; letter-spacing: 0.04em;
+    transition: background 0.2s;
+  }
+  .cta-btn:hover { background: var(--teal); }
+  .cta-btn svg { width: 14px; flex-shrink: 0; }
+
+  /* ── STRUCTURE SECTION ── */
+  .section-structure { background: var(--white); }
+  .structure-diagram {
+    display: grid; grid-template-columns: 1fr auto 1fr auto 1fr;
+    gap: 0; align-items: center; margin-bottom: 48px;
+  }
+  .str-box {
+    border: 1px solid var(--gray2); padding: 24px 20px; text-align: center;
+    border-radius: 2px; transition: border-color 0.2s, background 0.2s;
+  }
+  .str-box:hover { border-color: var(--gold); background: var(--cream); }
+  .str-box.navy { background: var(--navy); border-color: var(--navy); }
+  .str-box.teal { background: var(--teal); border-color: var(--teal); }
+  .str-box-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .str-box.navy .str-box-title,
+  .str-box.teal .str-box-title { color: var(--white); }
+  .str-box-sub { font-size: 11px; color: var(--gray3); }
+  .str-box.navy .str-box-sub { color: rgba(255,255,255,0.45); }
+  .str-box.teal .str-box-sub { color: rgba(255,255,255,0.5); }
+  .str-box-badge {
+    display: inline-block; margin-top: 10px;
+    font-size: 10px; font-weight: 700; padding: 3px 10px;
+    border-radius: 2px; letter-spacing: 0.08em;
+  }
+  .str-box.navy .str-box-badge { background: rgba(218,158,49,0.2); color: var(--gold); }
+  .str-box.teal .str-box-badge { background: rgba(218,158,49,0.2); color: var(--gold); }
+  .str-box-badge.coinv { background: rgba(45,106,45,0.1); color: #2D6A2D; }
+  .str-arrow {
+    display: flex; flex-direction: column; align-items: center;
+    padding: 0 16px; color: var(--gold);
+  }
+  .str-arrow-line { width: 40px; height: 1px; background: var(--gold); }
+  .str-arrow-head { font-size: 16px; color: var(--gold); line-height: 1; margin-top: -2px; }
+  .str-arrow-label { font-size: 10px; color: var(--gold); letter-spacing: 0.06em; margin-top: 6px; white-space: nowrap; }
+
+  .protections-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .protection-item {
+    display: flex; gap: 16px; padding: 20px;
+    border: 1px solid var(--gray2); border-radius: 2px;
+    transition: border-color 0.2s;
+  }
+  .protection-item:hover { border-color: var(--gold); }
+  .prot-icon {
+    width: 36px; height: 36px; flex-shrink: 0;
+    background: rgba(218,158,49,0.1); border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .prot-title { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .prot-desc { font-size: 12px; color: var(--gray4); line-height: 1.6; }
+
+  /* ── CONTACT ── */
+  .section-contact { background: var(--navy); color: var(--white); text-align: center; padding: 80px 60px; }
+  .contact-title {
+    font-family: var(--font-serif); font-size: clamp(28px, 3vw, 44px);
+    font-weight: 400; color: var(--white); margin-bottom: 16px;
+  }
+  .contact-title em { color: var(--gold); font-style: italic; }
+  .contact-sub { font-size: 15px; color: rgba(255,255,255,0.5); max-width: 480px; margin: 0 auto 48px; }
+  .contact-cards {
+    display: flex; justify-content: center; gap: 24px;
+    flex-wrap: wrap; margin-bottom: 48px;
+  }
+  .contact-card {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(218,158,49,0.2);
+    padding: 24px 32px; border-radius: 2px; text-align: left; min-width: 220px;
+  }
+  .contact-card-label { font-size: 10px; letter-spacing: 0.12em; color: var(--gold); font-weight: 600; margin-bottom: 8px; }
+  .contact-card-val { font-size: 15px; font-weight: 600; color: var(--white); }
+  .contact-card-val a { color: var(--white); text-decoration: none; }
+  .contact-card-val a:hover { color: var(--gold); }
+  .contact-phrase {
+    font-family: var(--font-serif); font-style: italic;
+    font-size: 16px; color: rgba(255,255,255,0.3);
+    letter-spacing: 0.02em;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: rgba(0,20,35,1);
+    padding: 24px 60px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-left { font-size: 12px; color: rgba(255,255,255,0.25); }
+  .footer-right { font-size: 11px; color: rgba(255,255,255,0.18); max-width: 480px; text-align: right; line-height: 1.5; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 0 20px; }
+    .nav-right .nav-link { display: none; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    section { padding: 60px 24px; }
+    .market-grid { grid-template-columns: 1fr; }
+    .deal-grid { grid-template-columns: 1fr; }
+    .calc-wrap { grid-template-columns: 1fr; }
+    .calc-results { position: static; }
+    .structure-diagram { grid-template-columns: 1fr; gap: 16px; }
+    .str-arrow { flex-direction: row; padding: 0; transform: rotate(90deg); margin: 8px auto; }
+    .protections-grid { grid-template-columns: 1fr; }
+    .contact-cards { flex-direction: column; align-items: center; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+    .footer-right { text-align: center; }
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-in {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-mark">M24</div>
+    <div>
+      <div class="nav-logo-text">M24 INVEST</div>
+      <div class="nav-logo-sub">CO-INVESTMENT PLATFORM</div>
+    </div>
+  </div>
+  <div class="nav-right">
+    <a href="#market" class="nav-link">РЫНОК</a>
+    <a href="#deal" class="nav-link">ПРОЕКТ</a>
+    <a href="#calculator" class="nav-link">КАЛЬКУЛЯТОР</a>
+    <a href="#contact" class="nav-cta">СВЯЗАТЬСЯ</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-dots"></div>
+  <div class="hero-accent"></div>
+
+  <div class="hero-left">
+    <div class="hero-tag">ИНВЕСТИЦИОННАЯ ВОЗМОЖНОСТЬ</div>
+    <h1 class="hero-title">Студенческое жильё<br><em>Констанц</em></h1>
+    <div class="hero-location">ГЕРМАНИЯ · БАДЕН-ВЮРТЕМБЕРГ · БОДЕНЗЕЕ</div>
+    <p class="hero-desc">
+      Действующий актив. Продавец — Vonovia SE. Buy, renovate, sell.
+      M24 Invest входит собственным капиталом и предлагает войти рядом
+      на тех же условиях.
+    </p>
+    <div class="hero-kpi">
+      <div class="kpi-cell">
+        <div class="kpi-val">39%</div>
+        <div class="kpi-label">IRR M24</div>
+      </div>
+      <div class="kpi-cell">
+        <div class="kpi-val">27 мес.</div>
+        <div class="kpi-label">Горизонт</div>
+      </div>
+      <div class="kpi-cell">
+        <div class="kpi-val">35%</div>
+        <div class="kpi-label">ROI проекта</div>
+      </div>
+      <div class="kpi-cell">
+        <div class="kpi-val">€23,1 млн</div>
+        <div class="kpi-label">GDV</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-image-block">
+      <div class="hero-img-header">
+        <div class="hero-img-title">PROJEKT SHW414 · KONSTANZ</div>
+        <div class="status-badge">ОДОБРЕНО ИК</div>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-row">
+          <span class="stat-key">Адрес</span>
+          <span class="stat-val">Schürmann-Horster-Weg 4-14</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-key">Продавец</span>
+          <span class="stat-val">Vonovia SE</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-key">Арендная площадь</span>
+          <span class="stat-val">4 262 м²</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-key">Комнат</span>
+          <span class="stat-val">220 студенческих юнитов</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-key">NOI (аренда 2026–28)</span>
+          <span class="stat-val gold">€0,95 млн</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-key">Банковское финансирование</span>
+          <span class="stat-val">€10,2 млн (59% LTC)</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-key">Старт проекта</span>
+          <span class="stat-val gold">Октябрь 2026</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>SCROLL</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </div>
+</section>
+
+<!-- MARKET -->
+<section class="section-market" id="market">
+  <span class="section-tag fade-in">РЫНОЧНАЯ ПОЗИЦИЯ</span>
+  <h2 class="section-title fade-in">Структурный дефицит,<br>который не исчезнет</h2>
+  <p class="section-sub fade-in">Констанц — один из наиболее дефицитных рынков студенческого жилья в Германии. На 14 000 студентов в 4 университетах приходится лишь 2 029 официальных мест.</p>
+  <div class="market-grid fade-in">
+    <div class="market-card">
+      <div class="market-icon">🎓</div>
+      <div class="market-num">14 000</div>
+      <div class="market-label">СТУДЕНТОВ</div>
+      <div class="market-desc">4 университета. Университет Констанца входит в Excellence Initiative Германии. Постоянный входящий поток независимо от цикла.</div>
+    </div>
+    <div class="market-card">
+      <div class="market-icon">🏘</div>
+      <div class="market-num">85%</div>
+      <div class="market-label">ДЕФИЦИТ МЕСТ</div>
+      <div class="market-desc">На 14 000 студентов только 2 029 официальных мест в общежитиях. Среди 300+ объявлений на дату анализа — ни одного сопоставимого (реновация + мебель + прямая аренда).</div>
+    </div>
+    <div class="market-card">
+      <div class="market-icon">🇨🇭</div>
+      <div class="market-num">2×</div>
+      <div class="market-label">ЮРИСДИКЦИЙ СПРОСА</div>
+      <div class="market-desc">Констанц образует агломерацию с Кройцлингеном (Швейцария). Спрос — из двух стран. Арендные ставки выше средних по Баден-Вюртембергу.</div>
+    </div>
+    <div class="market-card">
+      <div class="market-icon">📈</div>
+      <div class="market-num">€450</div>
+      <div class="market-label">ЦЕЛЕВАЯ АРЕНДА / КОМНАТА</div>
+      <div class="market-desc">Подтверждена будущим оператором Weckerle GmbH. Текущие аналоги в Fürstenberg — от €380 до €580/мес. Рост ставок в новых проектах после реновации.</div>
+    </div>
+    <div class="market-card">
+      <div class="market-icon">🏗</div>
+      <div class="market-num">0</div>
+      <div class="market-label">КОНКУРИРУЮЩИХ ПРОЕКТОВ</div>
+      <div class="market-desc">Нет сопоставимых новых объектов в стадии строительства в данной локации. Барьер входа высок: участок на берегу Боденского озера, разрешения.</div>
+    </div>
+    <div class="market-card">
+      <div class="market-icon">💰</div>
+      <div class="market-num">5,26%</div>
+      <div class="market-label">EXIT YIELD</div>
+      <div class="market-desc">Средневзвешенная цена сделок в Fürstenberg — €5 032/м². Модель использует €5 296/м². При стресс-тесте −15% IRR M24 сохраняется ≥20%.</div>
+    </div>
+  </div>
+</section>
+
+<!-- DEAL -->
+<section class="section-deal" id="deal">
+  <span class="section-tag fade-in" style="color:rgba(218,158,49,0.7)">ПАРАМЕТРЫ ПРОЕКТА</span>
+  <h2 class="section-title fade-in">Три этапа.<br>27 месяцев.</h2>
+  <p class="section-sub fade-in">Buy, renovate, sell. Действующий актив без строительного риска. Ремонт только после смены оператора в октябре 2027.</p>
+
+  <div class="deal-grid fade-in">
+    <div class="deal-specs">
+      <div class="spec-row"><span class="spec-key">Объект</span><span class="spec-val">6 зданий, 1995 г. постройки</span></div>
+      <div class="spec-row"><span class="spec-key">Площадь участка</span><span class="spec-val">3 069 м²</span></div>
+      <div class="spec-row"><span class="spec-key">Арендная площадь</span><span class="spec-val">4 262 м² (216 комнат)</span></div>
+      <div class="spec-row"><span class="spec-key">После раздела</span><span class="spec-val">220 юнитов, 60 паркомест</span></div>
+      <div class="spec-row"><span class="spec-key">Текущий оператор</span><span class="spec-val">Seezeit Studiezendenwerk</span></div>
+      <div class="spec-row"><span class="spec-key">Договор аренды до</span><span class="spec-val">31.10.2027 (фикс. €42 823/мес.)</span></div>
+      <div class="spec-row"><span class="spec-key">Новый оператор</span><span class="spec-val">Weckerle GmbH Hausverwaltung</span></div>
+      <div class="spec-row"><span class="spec-key">Затраты ремонта</span><span class="spec-val">€4,1 млн (€1 020/м²)</span></div>
+      <div class="spec-row"><span class="spec-key">GDC</span><span class="spec-val">€17,9 млн</span></div>
+      <div class="spec-row"><span class="spec-key">GDV</span><span class="spec-val" style="color:var(--gold)">€23,1 млн</span></div>
+      <div class="spec-row"><span class="spec-key">ROI</span><span class="spec-val" style="color:var(--gold)">35%</span></div>
+      <div class="spec-row"><span class="spec-key">Legal DD</span><span class="spec-val" style="color:#4CAF50">Завершён, рисков нет</span></div>
+    </div>
+    <div class="deal-timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot">1</div>
+        <div class="timeline-content">
+          <div class="timeline-period">2К–4К 2026 · −€12,5 МЛН</div>
+          <div class="timeline-title">Покупка</div>
+          <div class="timeline-desc">Подписание договора купли-продажи с Vonovia. Банковское финансирование Sparkasse Bodensee €10,2 млн согласовано как предварительное условие. Закрытие — середина октября 2026.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">2</div>
+        <div class="timeline-content">
+          <div class="timeline-period">4К 2026 – 3К 2027 · −€0,8 МЛН</div>
+          <div class="timeline-title">Подготовительные работы</div>
+          <div class="timeline-desc">Юридическое разделение на квартиры, проектная документация, закупка материалов. В этот период поступает NOI €0,95 млн от текущего арендатора.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">3</div>
+        <div class="timeline-content">
+          <div class="timeline-period">4К 2027 – 3К 2028 · −€3,7 МЛН</div>
+          <div class="timeline-title">Реновация и сдача в аренду</div>
+          <div class="timeline-desc">Ремонт поэтапно, меблировка, смена оператора на Weckerle. Незатронутые здания продолжают генерировать доход. Параллельно — выход на рынок продаж.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">4</div>
+        <div class="timeline-content">
+          <div class="timeline-period">1К–4К 2028 · +€23,1 МЛН</div>
+          <div class="timeline-title">Продажа</div>
+          <div class="timeline-desc">Портфельная продажа глобальному инвестору (SwissLife, Deka и аналогичные) или поквартирная продажа через Vertrieb-дистрибьюторов (SwissLife). Yield 5,26% соответствует рыночному уровню.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALCULATOR -->
+<section class="section-calc" id="calculator">
+  <span class="section-tag fade-in">ВАША ДОХОДНОСТЬ</span>
+  <h2 class="section-title fade-in">Посчитайте свой сценарий</h2>
+  <p class="section-sub fade-in">Выберите размер инвестиции — калькулятор покажет вашу доходность с учётом всех условий структуры.</p>
+
+  <div class="calc-wrap">
+    <!-- Controls -->
+    <div class="calc-controls fade-in">
+      <div class="calc-title">Размер вашей инвестиции</div>
+      <div class="calc-subtitle">Минимальный чек — €500 000. Остальные параметры зафиксированы.</div>
+
+      <div class="input-group">
+        <div class="input-label">
+          Сумма инвестиции
+          <span id="lbl-amount">€1 000 000</span>
+        </div>
+        <input type="range" id="sl-amount" min="500000" max="3000000" step="100000" value="1000000">
+        <div class="range-labels"><span>€500 000</span><span>€3 000 000</span></div>
+      </div>
+
+      <div class="fixed-params">
+        <div class="fixed-title">ЗАФИКСИРОВАННЫЕ УСЛОВИЯ</div>
+        <div class="fixed-row"><span class="fixed-key">Структура входа</span><span class="fixed-val">Субординированный заём в Claida M24 GmbH</span></div>
+        <div class="fixed-row"><span class="fixed-key">Hurdle rate</span><span class="fixed-val">12% годовых</span></div>
+        <div class="fixed-row"><span class="fixed-key">Распределение прибыли</span><span class="fixed-val">50/50 после hurdle</span></div>
+        <div class="fixed-row"><span class="fixed-key">Success fee M24</span><span class="fixed-val">20% от вашей доли прибыли</span></div>
+        <div class="fixed-row"><span class="fixed-key">Structuring fee</span><span class="fixed-val">1% от суммы (разовая)</span></div>
+        <div class="fixed-row"><span class="fixed-key">Срок проекта</span><span class="fixed-val">27 месяцев (2,25 года)</span></div>
+        <div class="fixed-row"><span class="fixed-key">Залог</span><span class="fixed-val">Доля Claida M24 в SPV</span></div>
+        <div class="fixed-row"><span class="fixed-key">Немецкое право</span><span class="fixed-val">Loan agreement + SHA</span></div>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div class="calc-results fade-in">
+      <div class="result-hero">
+        <div class="result-hero-bg"></div>
+        <div class="result-hero-tag">ВАШ РЕЗУЛЬТАТ</div>
+        <div class="result-irr-label">Ваш IRR (с учётом всех затрат)</div>
+        <div class="result-irr-val" id="res-irr">—%</div>
+        <div class="result-irr-sub">с учётом structuring fee и success fee M24</div>
+        <div class="result-divider"></div>
+        <div class="result-row"><span class="result-key">Ваш совокупный outflow</span><span class="result-val" id="res-out">—</span></div>
+        <div class="result-row"><span class="result-key">Ваш доход из waterfall</span><span class="result-val gold" id="res-income">—</span></div>
+        <div class="result-row"><span class="result-key">Вы получаете итого</span><span class="result-val gold" id="res-total">—</span></div>
+        <div class="result-row"><span class="result-key">Кратность (MOIC)</span><span class="result-val gold" id="res-moic">—×</span></div>
+      </div>
+
+      <div class="result-card">
+        <div class="result-card-title">РАСПРЕДЕЛЕНИЕ ПРИБЫЛИ ПРОЕКТА</div>
+        <div class="waterfall-visual" id="wf-visual"></div>
+        <div class="wf-legend">
+          <div class="wf-leg"><div class="wf-dot" style="background:#3B6D11"></div>Ваш hurdle</div>
+          <div class="wf-leg"><div class="wf-dot" style="background:#BA7517"></div>Hurdle M24</div>
+          <div class="wf-leg"><div class="wf-dot" style="background:#D4537E"></div>Success fee M24</div>
+          <div class="wf-leg"><div class="wf-dot" style="background:#5DCAA5"></div>Ваш апсайд</div>
+          <div class="wf-leg"><div class="wf-dot" style="background:#888780"></div>Апсайд M24</div>
+        </div>
+      </div>
+
+      <div class="result-card">
+        <div class="result-card-title">ДЕТАЛИ РАСЧЁТА</div>
+        <div class="result-breakdown">
+          <div class="bd-row"><span class="bd-key">Ваш чек</span><span class="bd-val navy" id="bd-chek">—</span></div>
+          <div class="bd-row"><span class="bd-key">+ Structuring fee (1%)</span><span class="bd-val gold" id="bd-struct">—</span></div>
+          <div class="bd-row"><span class="bd-key">Итого вложено</span><span class="bd-val navy" id="bd-out">—</span></div>
+          <div class="bd-row"><span class="bd-key">Hurdle 12% × 2,25 лет</span><span class="bd-val green" id="bd-hurdle">—</span></div>
+          <div class="bd-row"><span class="bd-key">Ваш апсайд (после success fee)</span><span class="bd-val green" id="bd-upside">—</span></div>
+          <div class="bd-row"><span class="bd-key">Итого ваш доход</span><span class="bd-val green" id="bd-income">—</span></div>
+          <div class="bd-row"><span class="bd-key">Возврат тела + доход</span><span class="bd-val green" id="bd-total">—</span></div>
+        </div>
+      </div>
+
+      <div class="cta-block">
+        <div>
+          <div class="cta-text-main">Готовы обсудить вход?</div>
+          <div class="cta-text-sub">Подписываем NDA → открываем Data Room</div>
+        </div>
+        <a href="mailto:sk@m24invest.com?subject=Konstanz co-investment — интерес&body=Добрый день,%0A%0AМеня интересует участие в проекте Konstanz. Готов обсудить условия.%0A%0AСумма рассматриваемого чека: €___" class="cta-btn">
+          Написать Сергею
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STRUCTURE -->
+<section class="section-structure" id="structure">
+  <span class="section-tag fade-in">ЮРИДИЧЕСКАЯ СТРУКТУРА</span>
+  <h2 class="section-title fade-in">Как защищён ваш капитал</h2>
+  <p class="section-sub fade-in">Субординированный заём в Claida M24 GmbH (Германия). Все права оформлены по немецкому праву.</p>
+
+  <div class="structure-diagram fade-in">
+    <div class="str-box">
+      <div class="str-box-title">Вы</div>
+      <div class="str-box-sub">Соинвестор</div>
+      <div class="str-box-badge coinv">ЗАИМОДАВЕЦ</div>
+    </div>
+    <div class="str-arrow">
+      <div style="display:flex;align-items:center">
+        <div class="str-arrow-line"></div>
+        <div class="str-arrow-head">›</div>
+      </div>
+      <div class="str-arrow-label">Суборд. заём</div>
+    </div>
+    <div class="str-box teal">
+      <div class="str-box-title">Claida M24 GmbH</div>
+      <div class="str-box-sub">Germany · операционная компания</div>
+      <div class="str-box-badge">50% ДОЛИ В SPV</div>
+    </div>
+    <div class="str-arrow">
+      <div style="display:flex;align-items:center">
+        <div class="str-arrow-line"></div>
+        <div class="str-arrow-head">›</div>
+      </div>
+      <div class="str-arrow-label">€5,125 млн займ</div>
+    </div>
+    <div class="str-box navy">
+      <div class="str-box-title">SHW414 Propco GmbH</div>
+      <div class="str-box-sub">Проектная SPV · Германия</div>
+      <div class="str-box-badge">АКТИВ + БАНК</div>
+    </div>
+  </div>
+
+  <div class="protections-grid fade-in">
+    <div class="protection-item">
+      <div class="prot-icon">🔒</div>
+      <div>
+        <div class="prot-title">Залог доли Claida в SPV</div>
+        <div class="prot-desc">В обеспечение займа вы получаете залог 50% доли Claida M24 в проектной компании SHW414 Propco GmbH.</div>
+      </div>
+    </div>
+    <div class="protection-item">
+      <div class="prot-icon">✍️</div>
+      <div>
+        <div class="prot-title">2 директора в SPV</div>
+        <div class="prot-desc">Директор от Claida (Andreas Funk) и директор от Athena действуют только совместно. Ни одно ключевое решение не принимается единолично.</div>
+      </div>
+    </div>
+    <div class="protection-item">
+      <div class="prot-icon">🏦</div>
+      <div>
+        <div class="prot-title">Банк — предварительное условие</div>
+        <div class="prot-desc">Вы входите только после того, как Sparkasse Bodensee подпишет кредитный договор. Банк уже провёл собственный DD актива.</div>
+      </div>
+    </div>
+    <div class="protection-item">
+      <div class="prot-icon">📊</div>
+      <div>
+        <div class="prot-title">Право вето и отчётность</div>
+        <div class="prot-desc">SHA-ковенанты: без вашего согласия Claida не может изменить бизнес-план проекта. Ежеквартальная отчётность + прямой доступ к выпискам SPV.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section-contact" id="contact">
+  <h2 class="contact-title">Следующий шаг — <em>один звонок</em></h2>
+  <p class="contact-sub">Подпишем NDA, откроем Data Room. Финмодель, Legal DD, Technical DD, банковский term sheet — всё уже готово.</p>
+  <div class="contact-cards">
+    <div class="contact-card">
+      <div class="contact-card-label">КОНТАКТ</div>
+      <div class="contact-card-val">Сергей Ковалевский</div>
+    </div>
+    <div class="contact-card">
+      <div class="contact-card-label">EMAIL</div>
+      <div class="contact-card-val"><a href="mailto:sk@m24invest.com">sk@m24invest.com</a></div>
+    </div>
+    <div class="contact-card">
+      <div class="contact-card-label">ТЕЛЕФОН</div>
+      <div class="contact-card-val"><a href="tel:+352202139 15">+352 20 21 39 15</a></div>
+    </div>
+    <div class="contact-card">
+      <div class="contact-card-label">САЙТ</div>
+      <div class="contact-card-val"><a href="https://m24sunshine.com" target="_blank">m24sunshine.com</a></div>
+    </div>
+  </div>
+  <div class="contact-phrase">Clarity. Growth. Trust.</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">© 2026 M24 Invest · Luxembourg Family Office</div>
+  <div class="footer-right">Данный материал носит информационный характер и не является публичной офертой или инвестиционной рекомендацией. Инвестиции в недвижимость связаны с риском потери капитала. Только для квалифицированных инвесторов.</div>
+</footer>
+
+<script>
+// ── CALCULATOR LOGIC ──
+const TOTAL_EQUITY = 5125000;
+const PROFIT = 4528000;
+const TERM = 2.25;
+const HURDLE_RATE = 0.12;
+const SFEE_RATE = 0.20;
+const STRUCT_RATE = 0.01;
+
+function fmt(n) {
+  if (isNaN(n)) return '—';
+  const abs = Math.abs(Math.round(n));
+  return (n < 0 ? '−€' : '€') + abs.toLocaleString('ru-RU');
+}
+function p1(n) { return isNaN(n) ? '—%' : (Math.round(n * 10) / 10) + '%'; }
+function mo(n) { return isNaN(n) ? '—×' : (Math.round(n * 100) / 100).toFixed(2) + '×'; }
+
+function compute(coinvAmt) {
+  const m24Amt = TOTAL_EQUITY - coinvAmt;
+  const hurdleCoinv = coinvAmt * HURDLE_RATE * TERM;
+  const hurdleM24   = m24Amt   * HURDLE_RATE * TERM;
+  let remaining = PROFIT - hurdleCoinv - hurdleM24;
+
+  const coinvShare = coinvAmt / TOTAL_EQUITY;
+  let rawCoinvUpside = 0, sfeeAmt = 0, coinvUpside = 0, m24UpsideExtra = 0, m24UpsideBase = 0;
+  if (remaining > 0) {
+    rawCoinvUpside = remaining * coinvShare;
+    sfeeAmt        = rawCoinvUpside * SFEE_RATE;
+    coinvUpside    = rawCoinvUpside - sfeeAmt;
+    m24UpsideBase  = remaining * (1 - coinvShare);
+    m24UpsideExtra = m24UpsideBase + sfeeAmt;
+  }
+
+  const structFee = coinvAmt * STRUCT_RATE;
+  const coinvIncome   = hurdleCoinv + coinvUpside;
+  const coinvOut      = coinvAmt + structFee;
+  const coinvReceived = coinvAmt + coinvIncome;
+  const coinvIRR      = (Math.pow(coinvReceived / coinvOut, 1/TERM) - 1) * 100;
+  const coinvMOIC     = coinvReceived / coinvOut;
+
+  return {
+    hurdleCoinv, hurdleM24, remaining, sfeeAmt, coinvUpside,
+    m24UpsideBase, structFee, coinvIncome, coinvOut, coinvReceived,
+    coinvIRR, coinvMOIC
+  };
+}
+
+function update() {
+  const coinvAmt = +document.getElementById('sl-amount').value;
+  document.getElementById('lbl-amount').textContent =
+    '€' + coinvAmt.toLocaleString('ru-RU');
+
+  const r = compute(coinvAmt);
+
+  // Hero card
+  document.getElementById('res-irr').textContent    = p1(r.coinvIRR);
+  document.getElementById('res-out').textContent    = fmt(r.coinvOut);
+  document.getElementById('res-income').textContent = fmt(r.coinvIncome);
+  document.getElementById('res-total').textContent  = fmt(r.coinvReceived);
+  document.getElementById('res-moic').textContent   = mo(r.coinvMOIC);
+
+  // Breakdown
+  document.getElementById('bd-chek').textContent   = fmt(coinvAmt);
+  document.getElementById('bd-struct').textContent = fmt(r.structFee);
+  document.getElementById('bd-out').textContent    = fmt(r.coinvOut);
+  document.getElementById('bd-hurdle').textContent = fmt(r.hurdleCoinv);
+  document.getElementById('bd-upside').textContent = fmt(r.coinvUpside);
+  document.getElementById('bd-income').textContent = fmt(r.coinvIncome);
+  document.getElementById('bd-total').textContent  = fmt(r.coinvReceived);
+
+  // Waterfall bar
+  const segs = [
+    { w: Math.max(0, r.hurdleCoinv), c: '#3B6D11' },
+    { w: Math.max(0, r.hurdleM24),   c: '#BA7517' },
+    { w: Math.max(0, r.sfeeAmt),     c: '#D4537E' },
+    { w: Math.max(0, r.coinvUpside), c: '#5DCAA5' },
+    { w: Math.max(0, r.m24UpsideBase), c: '#888780' },
+  ];
+  document.getElementById('wf-visual').innerHTML = segs.map(s => {
+    const wp = Math.max(0.5, (s.w / PROFIT) * 100);
+    return `<div class="wf-seg" style="width:${wp.toFixed(2)}%;background:${s.c};"></div>`;
+  }).join('');
+}
+
+document.getElementById('sl-amount').addEventListener('input', update);
+update();
+
+// ── FADE IN on scroll ──
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
